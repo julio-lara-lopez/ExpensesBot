@@ -11,11 +11,12 @@ class Keyword(BaseModel):
 class Category(BaseModel):
     name: str
     emoji: Optional[str] = None
+    budget: Optional[float] = None
 
 @router.post("", tags=["Categories"])
 def add_category(category: Category):
     try:
-        crud.add_category(category.name, category.emoji)
+        crud.add_category(category.name, category.emoji, category.budget)
         return {"status": "success", "message": f"Category '{category.name}' added."}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -31,6 +32,22 @@ def remove_category(category_id: int):
 @router.get("", tags=["Categories"])
 def list_categories():
     return crud.list_categories()
+
+
+class Budget(BaseModel):
+    budget: float
+
+
+@router.put("/{category_id}/budget", tags=["Categories"])
+def set_budget(category_id: int, payload: Budget):
+    try:
+        crud.set_budget(category_id, payload.budget)
+        return {
+            "status": "success",
+            "message": f"Budget for category {category_id} set to {payload.budget}.",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 @router.get("/{category_id}/keywords", tags=["Categories"])
 def get_keywords_by_category(category_id: int):
