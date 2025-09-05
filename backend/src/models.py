@@ -9,6 +9,7 @@ class Category(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
     emoji = Column(String)
+    budget = Column(Float, nullable=True)
 
 
 class Expense(Base):

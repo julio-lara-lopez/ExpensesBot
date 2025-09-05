@@ -1,24 +1,24 @@
-INSERT INTO categories (name, emoji) VALUES ('Arriendo','🏠') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Luz','💡') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Agua','🚰') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Gas','🔥') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Gastos comunes','🏢') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Combustible','⛽') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Estadio español','🎾') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Llacolen','🏊') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Salud (Médico)','🩺') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Farmacia','💊') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Internet','🌐') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Seguro auto','🚗') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Suscripciones','🔁') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Celular','📱') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Supermercado','🛒') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Gastos Boni','🐶') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Comida afuera','🍽️') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Entretenimiento','🎬') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Ropa y cuidado personal','👕') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Regalos / detalles','🎁') ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji) VALUES ('Otros','📦') ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Arriendo','🏠', 500000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Luz','💡', 50000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Agua','🚰', 30000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Gas','🔥', 20000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Gastos comunes','🏢', 40000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Combustible','⛽', 100000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Estadio español','🎾', 30000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Llacolen','🏊', 50000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Salud (Médico)','🩺', 80000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Farmacia','💊', 30000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Internet','🌐', 35000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Seguro auto','🚗', 60000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Suscripciones','🔁', 40000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Celular','📱', 30000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Supermercado','🛒', 200000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Gastos Boni','🐶', 50000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Comida afuera','🍽️', 100000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Entretenimiento','🎬', 60000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Ropa y cuidado personal','👕', 80000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Regalos / detalles','🎁', 40000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Otros','📦', 50000) ON CONFLICT (name) DO NOTHING;
 
 INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'enel' FROM categories WHERE name='Luz'
