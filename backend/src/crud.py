@@ -74,17 +74,27 @@ def get_keywords_by_category(category_id: int):
 def list_categories():
     session = Session()
     cats = session.query(Category).all()
-    # If you have emoji in the model, add it to the Category model and here
-    result = [{"id": c.id, "name": c.name} for c in cats]
+    # Include emoji and budget if available in the model
+    result = [
+        {"id": c.id, "name": c.name, "emoji": c.emoji, "budget": c.budget}
+        for c in cats
+    ]
     session.close()
     return result
 
-def add_category(name: str, emoji: str = None):
+def add_category(name: str, emoji: str = None, budget: float = None):
     session = Session()
-    cat = Category(name=name)
-    # If emoji is part of the model, set it here
+    cat = Category(name=name, emoji=emoji, budget=budget)
     session.add(cat)
     session.commit()
+    session.close()
+
+def set_budget(category_id: int, amount: float):
+    session = Session()
+    cat = session.query(Category).filter_by(id=category_id).first()
+    if cat:
+        cat.budget = amount
+        session.commit()
     session.close()
 
 def remove_category(category_id: int):
