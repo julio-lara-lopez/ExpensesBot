@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Optional
 from src import crud
 
 router = APIRouter(tags=["Expenses"])
@@ -62,6 +61,12 @@ def add_expense(expense: Expense):
             date=date.today(),
             description=note or expense.text,
         )
-        return {"status": "success", "message": "Expense added."}
+        cat_info = cats.get(matched_id, {})
+        return {
+            "status": "success",
+            "message": "Expense added.",
+            "category": cat_info.get("name"),
+            "emoji": cat_info.get("emoji"),
+        }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
