@@ -150,7 +150,13 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         resp = await client.post(f"{BASE_URL}/expenses", json=payload)
         result = resp.json()
     if resp.status_code == 200:
-        await update.message.reply_text("Expense added.")
+        category = result.get("category")
+        emoji = result.get("emoji") or ""
+        if category:
+            msg = f"Expense added to {category} {emoji}".strip()
+        else:
+            msg = "Expense added."
+        await update.message.reply_text(msg)
     else:
         await update.message.reply_text(f"Error: {result.get('detail', 'Unknown error')}")
 
@@ -172,6 +178,7 @@ def main():
 
     print("Bot is running... Press Ctrl+C to stop.")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
+
 
 if __name__ == "__main__":
     main()

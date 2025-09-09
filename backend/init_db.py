@@ -1,8 +1,7 @@
 
 import os
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
-from src.models import Base, Category, CategoryKeyword
+from src.models import Base
 
 def get_db_url():
     # Example: postgresql+psycopg2://user:password@localhost/dbname

@@ -46,7 +46,7 @@ def load_taxonomy():
     session = Session()
     cats = {}
     for cat in session.query(Category).all():
-        cats[cat.id] = {"name": cat.name, "keywords": []}
+        cats[cat.id] = {"name": cat.name, "emoji": cat.emoji, "keywords": []}
     for kw in session.query(CategoryKeyword).all():
         cats[kw.category_id]["keywords"].append(kw.keyword.lower())
     session.close()
