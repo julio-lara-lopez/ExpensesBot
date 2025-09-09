@@ -34,6 +34,11 @@ def list_categories():
     return crud.list_categories()
 
 
+@router.get("/budget-status", tags=["Categories"])
+def get_budget_status():
+    return crud.get_budget_status()
+
+
 class Budget(BaseModel):
     budget: float
 

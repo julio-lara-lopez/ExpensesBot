@@ -2,7 +2,7 @@
 import os
 from sqlalchemy import create_engine, func
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Tuple
 from src.models import Category, Expense, CategoryKeyword
 
@@ -158,3 +158,47 @@ def add_expense(user_id: int, category_id: int, amount: float, date, description
     session.add(expense)
     session.commit()
     session.close()
+
+
+def get_budget_status():
+    """Return monthly spending per category compared to its budget."""
+    session = Session()
+    today = date.today()
+    start_of_month = today.replace(day=1)
+    if start_of_month.month == 12:
+        next_month = start_of_month.replace(year=start_of_month.year + 1, month=1)
+    else:
+        next_month = start_of_month.replace(month=start_of_month.month + 1)
+
+    rows = (
+        session.query(
+            Category.id,
+            Category.name,
+            Category.emoji,
+            Category.budget,
+            func.coalesce(func.sum(Expense.amount), 0).label("spent"),
+        )
+        .outerjoin(
+            Expense,
+            (Expense.category_id == Category.id)
+            & (Expense.date >= start_of_month)
+            & (Expense.date < next_month),
+        )
+        .group_by(Category.id, Category.name, Category.emoji, Category.budget)
+        .order_by(Category.id)
+        .all()
+    )
+
+    result = [
+        {
+            "id": r.id,
+            "name": r.name,
+            "emoji": r.emoji,
+            "budget": r.budget,
+            "spent": float(r.spent or 0),
+            "remaining": (r.budget - float(r.spent or 0)) if r.budget is not None else None,
+        }
+        for r in rows
+    ]
+    session.close()
+    return result
