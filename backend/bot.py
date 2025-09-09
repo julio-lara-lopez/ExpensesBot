@@ -137,6 +137,10 @@ async def cmd_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
         lines.append(f"{ts_str} • {r['category']}: {r['amount']:.2f} {r['currency']}{note}")
     await update.message.reply_text("\n".join(lines), parse_mode=ParseMode.MARKDOWN)
 
+async def cmd_chatid(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Return the chat ID so the user can configure reminders."""
+    await update.message.reply_text(str(update.effective_chat.id))
+
 async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.message or not update.message.text:
         return
@@ -174,6 +178,7 @@ def main():
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("sum", cmd_sum))
     app.add_handler(CommandHandler("list", cmd_list))
+    app.add_handler(CommandHandler("chatid", cmd_chatid))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, on_text))
 
     print("Bot is running... Press Ctrl+C to stop.")
