@@ -9,7 +9,7 @@ from src.models import Category, Expense, CategoryKeyword
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:postgres@db/expenses")
 TZ_OFFSET = int(os.getenv("TZ_OFFSET_MINUTES", "-180"))
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 Session = sessionmaker(bind=engine)
 
 def now_utc():
