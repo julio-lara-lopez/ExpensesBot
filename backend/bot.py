@@ -1,6 +1,6 @@
 import os
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from dataclasses import dataclass
 from typing import Optional
 from init_db import init_db
@@ -27,6 +27,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(mess
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 BASE_URL = os.getenv("API_BASE_URL", "http://backend:8000")
+CHAT_ID = os.getenv("CHAT_ID")
+BUDGET_REMINDER_HOUR = int(os.getenv("BUDGET_REMINDER_HOUR", "9"))
 
 
 
@@ -162,6 +164,30 @@ async def on_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
+async def send_budget_reminder(context: ContextTypes.DEFAULT_TYPE):
+    """Send a summary of budget usage to the configured chat."""
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(f"{BASE_URL}/categories/budget-status")
+        data = resp.json()
+
+    lines = ["*Monthly budget status*"]
+    for c in data:
+        budget = c.get("budget")
+        spent = c.get("spent", 0)
+        if not budget:
+            continue
+        pct = (spent / budget) * 100
+        emoji = c.get("emoji") or ""
+        lines.append(
+            f"{emoji} {c['name']}: {spent:.0f}/{budget:.0f} ({pct:.0f}%)"
+        )
+
+    if len(lines) > 1:
+        await context.bot.send_message(
+            chat_id=context.job.chat_id, text="\n".join(lines), parse_mode=ParseMode.MARKDOWN
+        )
+
+
 def main():
     if not BOT_TOKEN:
         raise RuntimeError("BOT_TOKEN missing. Set it in .env or environment variables.")
@@ -175,6 +201,13 @@ def main():
     app.add_handler(CommandHandler("sum", cmd_sum))
     app.add_handler(CommandHandler("list", cmd_list))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, on_text))
+
+    if CHAT_ID:
+        app.job_queue.run_daily(
+            send_budget_reminder,
+            time=time(hour=BUDGET_REMINDER_HOUR),
+            chat_id=int(CHAT_ID),
+        )
 
     print("Bot is running... Press Ctrl+C to stop.")
     app.run_polling(allowed_updates=Update.ALL_TYPES)
