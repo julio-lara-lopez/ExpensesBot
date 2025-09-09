@@ -25,9 +25,10 @@ def init_db():
                 print("Seed file contents:\n", sql[:500])  # Print first 500 chars
                 for statement in sql.split(';'):
                     stmt = statement.strip()
-                    if stmt:
-                        print("Executing statement:\n", stmt[:200])  # Print first 200 chars
-                        conn.execute(text(stmt))
+                    if not stmt or stmt.startswith("--"):
+                        continue
+                    print("Executing statement:\n", stmt[:200])  # Print first 200 chars
+                    conn.execute(text(stmt))
             trans.commit()
         except Exception as e:
             print(f"Error executing statement: {stmt[:60]}...\n{e}")

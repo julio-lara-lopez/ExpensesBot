@@ -68,11 +68,11 @@ ON CONFLICT (category_id, keyword) DO NOTHING;
 INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'estadio español' FROM categories WHERE name='Estadio español'
 ON CONFLICT (category_id, keyword) DO NOTHING;
-/*
-INSERT INTO category_keywords (category_id, keyword)
-  SELECT id, 'llacolen' FROM categories WHERE name='Llacolen'
-ON CONFLICT (category_id, keyword) DO NOTHING;
-*/
+
+--INSERT INTO category_keywords (category_id, keyword)
+--  SELECT id, 'llacolen' FROM categories WHERE name='Llacolen'
+--ON CONFLICT (category_id, keyword) DO NOTHING;
+--
 INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'consulta' FROM categories WHERE name='Salud (Médico)'
   UNION ALL
@@ -101,16 +101,16 @@ INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'internet' FROM categories WHERE name='Internet'
 ON CONFLICT (category_id, keyword) DO NOTHING;
 
-/*INSERT INTO category_keywords (category_id, keyword)
-  SELECT id, 'seguro auto' FROM categories WHERE name='Seguro auto'
-  UNION ALL
-  SELECT id, 'hdI' FROM categories WHERE name='Seguro auto'
-  UNION ALL
-  SELECT id, 'mapfre' FROM categories WHERE name='Seguro auto'
-  UNION ALL
-  SELECT id, 'seguros falabella' FROM categories WHERE name='Seguro auto'
-ON CONFLICT (category_id, keyword) DO NOTHING;
-*/
+--INSERT INTO category_keywords (category_id, keyword)
+--  SELECT id, 'seguro auto' FROM categories WHERE name='Seguro auto'
+--  UNION ALL
+--  SELECT id, 'hdI' FROM categories WHERE name='Seguro auto'
+--  UNION ALL
+--  SELECT id, 'mapfre' FROM categories WHERE name='Seguro auto'
+--  UNION ALL
+--  SELECT id, 'seguros falabella' FROM categories WHERE name='Seguro auto'
+--ON CONFLICT (category_id, keyword) DO NOTHING;
+
 INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'netflix' FROM categories WHERE name='Suscripciones'
   UNION ALL
@@ -122,19 +122,19 @@ INSERT INTO category_keywords (category_id, keyword)
   UNION ALL
   SELECT id, 'hbo' FROM categories WHERE name='Suscripciones'
 ON CONFLICT (category_id, keyword) DO NOTHING;
-/*
-INSERT INTO category_keywords (category_id, keyword)
-  SELECT id, 'entel' FROM categories WHERE name='Celular'
-  UNION ALL
-  SELECT id, 'claro' FROM categories WHERE name='Celular'
-  UNION ALL
-  SELECT id, 'wom' FROM categories WHERE name='Celular'
-  UNION ALL
-  SELECT id, 'movistar' FROM categories WHERE name='Celular'
-  UNION ALL
-  SELECT id, 'celular' FROM categories WHERE name='Celular'
-ON CONFLICT (category_id, keyword) DO NOTHING;
-*/
+
+--INSERT INTO category_keywords (category_id, keyword)
+--  SELECT id, 'entel' FROM categories WHERE name='Celular'
+--  UNION ALL
+--  SELECT id, 'claro' FROM categories WHERE name='Celular'
+--  UNION ALL
+--  SELECT id, 'wom' FROM categories WHERE name='Celular'
+--  UNION ALL
+--  SELECT id, 'movistar' FROM categories WHERE name='Celular'
+--  UNION ALL
+--  SELECT id, 'celular' FROM categories WHERE name='Celular'
+--ON CONFLICT (category_id, keyword) DO NOTHING;
+
 INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'lider' FROM categories WHERE name='Supermercado'
   UNION ALL
