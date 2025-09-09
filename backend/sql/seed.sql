@@ -187,6 +187,8 @@ INSERT INTO category_keywords (category_id, keyword)
   UNION ALL
   SELECT id, 'restaurante' FROM categories WHERE name='Comida afuera'
   UNION ALL
+  SELECT id, 'cafe' FROM categories WHERE name='Comida afuera'
+  UNION ALL
   SELECT id, 'uber eats' FROM categories WHERE name='Comida afuera'
 ON CONFLICT (category_id, keyword) DO NOTHING;
 
