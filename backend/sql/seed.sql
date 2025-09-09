@@ -6,7 +6,7 @@ INSERT INTO categories (name, emoji, budget) VALUES ('Gastos comunes','🏢', 40
 INSERT INTO categories (name, emoji, budget) VALUES ('Transporte','⛽', 100000) ON CONFLICT (name) DO NOTHING;
 INSERT INTO categories (name, emoji, budget) VALUES ('Estadio español','🎾', 30000) ON CONFLICT (name) DO NOTHING;
 --INSERT INTO categories (name, emoji, budget) VALUES ('Llacolen','🏊', 50000) ON CONFLICT (name) DO NOTHING;
-INSERT INTO categories (name, emoji, budget) VALUES ('Salud (Médico)','🩺', 80000) ON CONFLICT (name) DO NOTHING;
+INSERT INTO categories (name, emoji, budget) VALUES ('Doctor','🩺', 80000) ON CONFLICT (name) DO NOTHING;
 INSERT INTO categories (name, emoji, budget) VALUES ('Farmacia','💊', 30000) ON CONFLICT (name) DO NOTHING;
 INSERT INTO categories (name, emoji, budget) VALUES ('Internet','🌐', 35000) ON CONFLICT (name) DO NOTHING;
 --INSERT INTO categories (name, emoji, budget) VALUES ('Seguro auto','🚗', 60000) ON CONFLICT (name) DO NOTHING;
@@ -20,6 +20,13 @@ INSERT INTO categories (name, emoji, budget) VALUES ('Ropa y cuidado personal','
 INSERT INTO categories (name, emoji, budget) VALUES ('Regalos / detalles','🎁', 40000) ON CONFLICT (name) DO NOTHING;
 INSERT INTO categories (name, emoji, budget) VALUES ('Otros','📦', 50000) ON CONFLICT (name) DO NOTHING;
 INSERT INTO categories (name, emoji, budget) VALUES ('Gimnasio','🏋️', 50000) ON CONFLICT (name) DO NOTHING;
+
+
+INSERT INTO category_keywords (category_id, keyword)
+  SELECT id, 'arriendo' FROM categories WHERE name='Arriendo'
+ON CONFLICT (category_id, keyword) DO NOTHING;
+
+
 
 INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'enel' FROM categories WHERE name='Luz'
@@ -72,15 +79,15 @@ ON CONFLICT (category_id, keyword) DO NOTHING;
 --INSERT INTO category_keywords (category_id, keyword)
 --  SELECT id, 'llacolen' FROM categories WHERE name='Llacolen'
 --ON CONFLICT (category_id, keyword) DO NOTHING;
---
+
 INSERT INTO category_keywords (category_id, keyword)
-  SELECT id, 'consulta' FROM categories WHERE name='Salud (Médico)'
+  SELECT id, 'consulta' FROM categories WHERE name='Doctor'
   UNION ALL
-  SELECT id, 'isapre' FROM categories WHERE name='Salud (Médico)'
+  SELECT id, 'isapre' FROM categories WHERE name='Doctor'
   UNION ALL
-  SELECT id, 'medico' FROM categories WHERE name='Salud (Médico)'
+  SELECT id, 'medico' FROM categories WHERE name='Doctor'
   UNION ALL
-  SELECT id, 'examen' FROM categories WHERE name='Salud (Médico)'
+  SELECT id, 'examen' FROM categories WHERE name='Doctor'
 ON CONFLICT (category_id, keyword) DO NOTHING;
 
 INSERT INTO category_keywords (category_id, keyword)
@@ -121,6 +128,10 @@ INSERT INTO category_keywords (category_id, keyword)
   SELECT id, 'disney' FROM categories WHERE name='Suscripciones'
   UNION ALL
   SELECT id, 'hbo' FROM categories WHERE name='Suscripciones'
+  UNION ALL
+  SELECT id, 'chatgpt' FROM categories WHERE name='Suscripciones'
+  UNION ALL
+  SELECT id, 'copilot' FROM categories WHERE name='Suscripciones'
 ON CONFLICT (category_id, keyword) DO NOTHING;
 
 --INSERT INTO category_keywords (category_id, keyword)
