@@ -5,7 +5,10 @@ from sqlalchemy.orm import sessionmaker
 from datetime import date, datetime, timedelta, timezone
 from typing import Tuple
 from src.models import Category, Expense, CategoryKeyword
+from dotenv import load_dotenv
 
+
+load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg2://postgres:postgres@db/expenses")
 TZ_OFFSET = int(os.getenv("TZ_OFFSET_MINUTES", "-180"))
 

@@ -2,6 +2,8 @@
 import os
 from sqlalchemy import create_engine, text
 from src.models import Base
+import dotenv
+dotenv.load_dotenv()
 
 def get_db_url():
     # Example: postgresql+psycopg2://user:password@localhost/dbname
