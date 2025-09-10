@@ -38,15 +38,16 @@ def add_expense(expense: Expense):
         cats = crud.load_taxonomy()
         matched_id = None
         matched_keyword = None
+        keyword_pairs = []
         for cid, info in cats.items():
             for kw in info["keywords"]:
-                kw_lower = kw.lower()
-                pattern = r"\b" + re.escape(kw_lower) + r"\b"
-                if re.search(pattern, text_without_amount):
-                    matched_id = cid
-                    matched_keyword = kw_lower
-                    break
-            if matched_id:
+                keyword_pairs.append((kw.lower(), cid))
+        keyword_pairs.sort(key=lambda x: len(x[0]), reverse=True)
+        for kw_lower, cid in keyword_pairs:
+            pattern = r"\b" + re.escape(kw_lower) + r"\b"
+            if re.search(pattern, text_without_amount):
+                matched_id = cid
+                matched_keyword = kw_lower
                 break
         if matched_id:
             note = re.sub(r"\b" + re.escape(matched_keyword) + r"\b", "", text_without_amount).strip() or None
