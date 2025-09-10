@@ -9,6 +9,7 @@ A minimal Telegram bot to log expenses into a local SQLite database.
   - `/start` — quick help
   - `/sum [today|week|month]` — totals by currency
   - `/list [today|week|month]` — last 50 entries within period
+  - `/chatid` — reply with your chat ID for reminder configuration
 
 ## Quickstart
 
