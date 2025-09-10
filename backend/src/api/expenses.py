@@ -34,25 +34,39 @@ def add_expense(expense: Expense):
         start, end = m.span()
         left = cleaned[:start].strip()
         right = cleaned[end:].strip()
-        tokens_left = left.split()
-        tokens_right = right.split()
-        if tokens_left:
-            category_candidate = tokens_left[0]
-            note_tokens = (tokens_left[1:] + tokens_right) if (len(tokens_left) > 1 or tokens_right) else []
-        else:
-            category_candidate = tokens_right[0] if tokens_right else "misc"
-            note_tokens = tokens_right[1:] if len(tokens_right) > 1 else []
-        note = " ".join(note_tokens) if note_tokens else None
-        # Find category_id by name or keyword
+        text_without_amount = f"{left} {right}".strip().lower()
         cats = crud.load_taxonomy()
         matched_id = None
-        category_candidate_lower = category_candidate.lower()
+        matched_keyword = None
         for cid, info in cats.items():
-            if category_candidate_lower == info["name"].lower() or category_candidate_lower in info["keywords"]:
-                matched_id = cid
+            for kw in info["keywords"]:
+                kw_lower = kw.lower()
+                pattern = r"\b" + re.escape(kw_lower) + r"\b"
+                if re.search(pattern, text_without_amount):
+                    matched_id = cid
+                    matched_keyword = kw_lower
+                    break
+            if matched_id:
                 break
-        if not matched_id:
-            raise HTTPException(status_code=400, detail=f"Category not found for '{category_candidate}'")
+        if matched_id:
+            note = re.sub(r"\b" + re.escape(matched_keyword) + r"\b", "", text_without_amount).strip() or None
+        else:
+            tokens_left = left.split()
+            tokens_right = right.split()
+            if tokens_left:
+                category_candidate = tokens_left[0]
+                note_tokens = (tokens_left[1:] + tokens_right) if (len(tokens_left) > 1 or tokens_right) else []
+            else:
+                category_candidate = tokens_right[0] if tokens_right else "misc"
+                note_tokens = tokens_right[1:] if len(tokens_right) > 1 else []
+            note = " ".join(note_tokens) if note_tokens else None
+            category_candidate_lower = category_candidate.lower()
+            for cid, info in cats.items():
+                if category_candidate_lower == info["name"].lower() or category_candidate_lower in info["keywords"]:
+                    matched_id = cid
+                    break
+            if not matched_id:
+                raise HTTPException(status_code=400, detail=f"Category not found for '{category_candidate}'")
         # Insert expense with DB fields
         crud.add_expense(
             user_id=expense.user_id,
