@@ -32,8 +32,12 @@ services:
   bot:
     build: ./backend
     command: uv run bot.py
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      CHAT_ID: ${CHAT_ID}
+      BUDGET_REMINDER_HOUR: ${BUDGET_REMINDER_HOUR:-9}
     depends_on:
-      - db
+      - backend
     restart: unless-stopped
 
 volumes:
